@@ -23,7 +23,7 @@ This app gets informations about user repositories (repository name and used lan
 5. After changing enviroment variables you might need to restart Visual Studio and start-up application again, 
     because it doesn't detect changes to the environment variables while it is running.
 
-## Screenshot of working app
+## Screenshot
 
 ![githubapp](https://user-images.githubusercontent.com/54916175/148848026-e1aaffc1-9d75-42b6-ae62-0b56659afc7c.PNG)
 
