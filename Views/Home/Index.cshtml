@@ -1,0 +1,98 @@
+﻿
+@model GitHubApp.Models.IndexViewModel
+<div class="pb-3">
+    <h6>Hello!</h6>
+    <p>
+        This application gets information about GitHub user public repositories using GitHub API.<br />
+        Additionaly, it calculates language percentage usage among all user repositories.
+    </p>
+    <p>Use the text field below to search information about chosen user.</p>
+    <form action="/Home/Index" method="post">
+        <label class="control-label" for="login">GitHub User Login:</label><br>
+        <input type="text" id="login" name="login" class="form-control"><br>
+        <input class="btn btn-success" type="submit" value="Show me this github user info">
+    </form>
+</div>
+<hr />
+
+@if (Model != null)
+{
+    <div>
+        <p class="pr-1">Full account name: <b>@Model.FullAccountName</b></p>
+        <p class="pr-1">User's login: <b>@Model.Login</b></p>
+        <p class="pr-1">Percentage of language use among all user's repositories: </p>
+        <ul>
+            @foreach (var language in Model.PercentageOfLanguageUse)
+            {
+                <li>
+                    <span class="pr-1">@language.Key</span>
+                    @{
+                        double v = Math.Round(language.Value, 2);
+                        float w = 0.01f;
+                    }
+                    @if (v == 0)
+                    {
+                        <span>&lt;@w&#37;</span>
+                    }
+                    else
+                    {
+                        <span>@v&#37;</span>
+                    }
+                </li>
+            }
+        </ul>
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr> <th> Repository <th>Language <th> % usage
+            <tbody>
+                @foreach (var repository in Model.Repositories)
+                {
+                    <tr>
+                        <td>@repository.Name</td>
+                        @if (repository.Languages.Count != 0)
+                        {
+                            <td class="p-0 table-striped table-borderless">
+                                <table class="d-block">
+                                    <tbody class="d-block">
+                                        @foreach (var language in repository.Languages)
+                                        {
+                                            <tr class="d-block"><td class="d-block">@language.Key</td></tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="p-0 table-striped table-borderless">
+                                <table class="d-block">
+                                    <tbody class="d-block">
+                                        @foreach (var language in repository.Languages)
+                                        {
+                                            <tr class="d-block">
+                                                <td class="d-block">
+                                                    @{
+                                                        double v = Math.Round(language.Value, 2);
+                                                        float w = 0.01f;
+                                                    }
+                                                    @if (v == 0)
+                                                    {
+                                                        <span>&lt;@w&#37;</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@v&#37;</span>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        }
+                        else
+                        {
+                            <td colspan="2" class="bg-light">no language detected</td>
+                        }
+                    </tr>
+                }
+        </table>
+    </div>
+}
